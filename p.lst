@@ -1,0 +1,27 @@
+     1                                  section .data
+     2 00000000 0A0000006400000014-     	array dd 10,100,20,200,30,300,40,400,50,500
+     2 00000009 000000C80000001E00-
+     2 00000012 00002C010000280000-
+     2 0000001B 009001000032000000-
+     2 00000024 F4010000           
+     3 00000028 456C656D656E74203D-     	msg db "Element = %d",10
+     3 00000031 2025640A           
+     4                                  section .text
+     5                                  	global main
+     6                                  	extern printf
+     7                                  main:
+     8 00000000 BE[00000000]            	mov esi, array
+     9 00000005 BF00000000              	mov edi,0
+    10 0000000A 31D2                    lp:	xor edx, edx	;To make edx zero
+    11 0000000C B804000000              	mov eax, 4
+    12 00000011 F7E7                    	mul edi		; eax = eax * edi
+    13 00000013 01F0                    	add eax, esi 
+    14 00000015 FF30                    	push dword[eax]
+    15 00000017 68[28000000]            	push msg
+    16 0000001C E8(00000000)            	call printf
+    17 00000021 83C408                  	add esp, 8
+    18 00000024 47                      	inc edi
+    19 00000025 83FF0A                  	cmp edi,10
+    20 00000028 75E0                    	jnz lp
+    21 0000002A B800000000              mov eax, 0
+    22 0000002F C3                      ret
